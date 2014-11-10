@@ -1,0 +1,92 @@
+#Richard Wang and Tian-Yo Yang
+#CS 1301 Section B05
+#rwang329@gatech.edu/tyang82@gatech.edu
+#We worked on the homework assignment alone, using only this semester's course material
+
+from Myro import*
+from Graphics import*
+
+setPicSize("small")
+
+def seeingRed():
+    pic = takePicture()
+    for x in range(getWidth(pic)):
+        for y in range(getHeight(pic)):
+            pix = getPixel(pic,x,y)
+            setRed(pix,255)
+    show(pic)
+
+def fade():
+    picList = []
+    for i in range(8):
+        pic = takePicture()
+        for x in range(getWidth(pic)):
+            for y in range(getHeight(pic)):
+                pix = getPixel(pic, x,y)
+                setRed(pix,getRed(pix)-(i*35))
+                setGreen(pix,getGreen(pix)-(i*35))
+                setBlue(pix, getBlue(pix)-(i*35))
+        picList.append(pic)
+        savePicture(picList, "fade.gif")
+        show(pic)
+
+def overlay():
+    pic = takePicture()
+
+    picText = Text(Point(5,5),"I <3 Omar + Ari")
+    picText.draw(pic)
+    show(pic)
+
+def lensFlare(): #square lens flare in the upper left corner
+    pic = takePicture()
+    for x in range(int(getWidth(pic)/8)):
+        for y in range(int(getHeight(pic)/8)):
+            pix = getPixel(pic, x,y)
+            setRed(pix,getRed(pix)+100)
+            setGreen(pix,getGreen(pix)+100)
+            setBlue(pix,getBlue(pix)+100)
+    show(pic)
+
+def splitScreen():
+    picList=[]
+    i=0
+    while i<5:
+        pic1=takePicture()
+        turnRight(1,1.5)
+
+        pic2=takePicture()
+        turnLeft(1,1.5)
+
+        for x in range(int(getWidth(pic1))):
+            for y in range(int(getHeight(pic1)/2)):
+                setColor(getPixel(pic1,x,y),getColor(getPixel(pic2,x,y)))
+        show(pic1)
+        picList.append(pic1)
+        forward(1,1)
+        i=i+1
+    savePicture(picList,"splitScreen.gif")
+
+def blacken(): #this function takes a picture and makes it darker
+    pic = takePicture()
+    for x in range(getWidth(pic)):
+        for y in range(getHeight(pic)):
+                pix = getPixel(pic,x,y)
+                if getRed(pix) < 100 or getGreen(pix) < 100 or getBlue(pix) <100:
+                    setGreen(pix, 0)
+                    setBlue(pix, 0)
+                    setRed(pix, 0)
+    show(pic)
+
+def brighten(): #this function takes multiple pictures and makes them brighter and saves them in a gif
+    picList = []
+    for i in range(8):
+        pic = takePicture()
+        for x in range(getWidth(pic)):
+            for y in range(getHeight(pic)):
+                pix = getPixel(pic, x,y)
+                setRed(pix,getRed(pix)+(i*35))
+                setGreen(pix,getGreen(pix)+(i*35))
+                setBlue(pix, getBlue(pix)+(i*35))
+        show(pic)
+        picList.append(pic)
+    savePicture(picList,"brighten.gif")
